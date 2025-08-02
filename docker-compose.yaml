@@ -1,0 +1,41 @@
+services:
+  db:
+   image: postgres
+   container_name: pern-postgres
+   restart: always
+   environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pern_db
+   volumes: 
+      - postgres_data:/var/lib/postgresql/data
+   ports:
+    - "5432:5432"
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: pern_server
+    restart: always
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/pern_db
+    volumes:
+      - ./backend:/app
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: pern_client
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+volumes:
+   postgres_data: {}
+
