@@ -3,7 +3,7 @@ on:
  push:
   paths:
     - 'client/**'
-    - 'github/workflows/frontend.yaml'
+    - '.github/workflows/frontend.yaml'
 
 jobs:
     deploy-frontend:
