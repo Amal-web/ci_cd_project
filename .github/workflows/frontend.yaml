@@ -15,7 +15,7 @@ jobs:
         - name: Install dependencies
           working-directory: ./client
           run: |
-            npm install
+            npm ci
         
         - name: Build app
           working-directory: ./client
@@ -29,9 +29,11 @@ jobs:
             host: ${{secrets.EC2_HOST}}
             username: ${{secrets.EC2_USER}}
             key: ${{secrets.EC2_SECRET}}
-            source: "client/build/*"
+            script: |
+                sudo ls /client
+            source: "client/build/"
             target: "/var/www/react-app"
-        
+            
         - name: Restart nginx
           uses: appleboy/scp-action@v1
           with:
