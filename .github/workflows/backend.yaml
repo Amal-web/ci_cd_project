@@ -3,7 +3,7 @@ on:
  push:
   paths:
     - 'server/**'
-    - 'github/workflows/backend.yaml'
+    - '.github/workflows/backend.yaml'
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
