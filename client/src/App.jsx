@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <h1>hello Amal</h1>
+      <h1>hello Amal Das</h1>
       <TodoApp/>
     </>
   );
