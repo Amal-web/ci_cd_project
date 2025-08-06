@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use("/api/todos", todoRoutes);
 
-app.get("/", (req, res) => {
+app.get("/api/check", (req, res) => {
   res.send("ToDo API is running 🚀");
 });
 
