@@ -1,21 +1,33 @@
 name: backend deploy
+
 on:
- push:
-  paths:
-    - 'server/**'
-    - '.github/workflows/backend.yaml'
+  push:
+    paths: 
+      - 'server/**'
+      - '.github/workflows/backend.yaml'
+
 jobs:
   deploy-backend:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      - name: "checkout Code"
+        uses: actions/checkout@v3
+   
+      - name: "Install Dependencies"
+        working-directory: ./server
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+         npm ci
+        
+      - name : "Inject .env file"
+        working-directory: ./server
+        run: |
+          echo "${{secrets.ENV_FILE}}" > .env
+
+      - name: "Prisma Migrate Deploy (or db push)"
+        working-directory: ./server
+        run: npx prisma migrate deploy
+      - name: Restart Backend using PM2
+        working-directory: ./server
+        run: |
+          pm2 restart node-app || pm2 start index.js --name node-app
+          pm2 save

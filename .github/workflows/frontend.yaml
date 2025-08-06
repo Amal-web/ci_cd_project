@@ -11,6 +11,12 @@ jobs:
         steps:
         - name: "checkout Code"
           uses: actions/checkout@v3
+
+
+        - name: Inject .env file
+          working-directory: ./client
+          run: |
+           echo "${{ secrets.FRONTEND_ENV_FILE }}" > .env
         
         - name: Install dependencies
           working-directory: ./client
