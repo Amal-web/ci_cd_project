@@ -7,7 +7,11 @@ const app = express();
 
 databaseConnect();
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://app.amal-dev.shop','http://35.174.136.183'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true
+}));
 
 app.use(express.json());
 
