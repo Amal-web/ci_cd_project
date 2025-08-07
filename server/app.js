@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/todos", todoRoutes);
-// check
+// check test
 app.get("/api/check", (req, res) => {
   res.send("ToDo API is running 🚀");
 });
